@@ -1,16 +1,16 @@
 import React, { Component } from "react";
 
 // react router dom
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 // component
 import MyButton from "../../util/myButton";
 import UploadPost from "../post/buttons/uploadPost";
-import Notifications from './Notifications';
+import Notifications from "./Notifications";
 import ProfileButton from "./ProfileButton";
 
 // mui
-import { styled, AppBar, Toolbar, Button } from '@mui/material';
+import { styled, AppBar, Toolbar, Button, Skeleton } from "@mui/material";
 
 // mui icons
 import { HomeRounded, PeopleAlt } from "@mui/icons-material";
@@ -18,7 +18,7 @@ import { HomeRounded, PeopleAlt } from "@mui/icons-material";
 //redux
 import { connect } from "react-redux";
 
-const PREFIX = 'navbar';
+const PREFIX = "navbar";
 
 const classes = {
   container: `${PREFIX}-container`,
@@ -26,12 +26,12 @@ const classes = {
   activeNavLink: `${PREFIX}-activeNavLink`,
 };
 
-const StyledNavbar = styled('div')({
+const StyledNavbar = styled("div")({
   [`& .${classes.container}`]: {
     margin: "auto",
     padding: 5,
-    display: 'flex',
-    justifyContent: 'space-between'
+    display: "flex",
+    justifyContent: "space-between",
   },
   [`& .${classes.navLink}`]: {
     color: "#fff",
@@ -41,7 +41,7 @@ const StyledNavbar = styled('div')({
   },
   [`& .${classes.activeNavLink}`]: {
     background: "teal",
-  }
+  },
 });
 
 class Navbar extends Component {
@@ -49,7 +49,11 @@ class Navbar extends Component {
     return (
       <StyledNavbar>
         <AppBar>
-          <Toolbar variant="dense" className={classes.container} sx={this.props.authenticated ? { width: 250 } : { width: 146 }}>
+          <Toolbar
+            variant="dense"
+            className={classes.container}
+            sx={this.props.authenticated ? { width: 250 } : { width: 146 }}
+          >
             {!this.props.authenticated ? (
               <>
                 <NavLink
@@ -77,7 +81,7 @@ class Navbar extends Component {
                   </Button>
                 </NavLink>
               </>
-            ) : this.props.credentials ? (
+            ) : (
               <>
                 <NavLink
                   exact="true"
@@ -87,7 +91,11 @@ class Navbar extends Component {
                   }
                   to="/"
                 >
-                  <MyButton tip="Home" content={<HomeRounded />} color="inherit" />
+                  <MyButton
+                    tip="Home"
+                    content={<HomeRounded />}
+                    color="inherit"
+                  />
                 </NavLink>
                 <NavLink
                   className={({ isActive }) =>
@@ -102,12 +110,35 @@ class Navbar extends Component {
                     color="inherit"
                   />
                 </NavLink>
-                <UploadPost />
-                <Notifications />
-                <ProfileButton />
+                {this.props.credentials ? (
+                  <>
+                    <UploadPost />
+                    <Notifications />
+                    <ProfileButton />
+                  </>
+                ) : (
+                  <>
+                    <Skeleton
+                      animation="wave"
+                      variant="circular"
+                      width={40}
+                      height={40}
+                    />
+                    <Skeleton
+                      animation="wave"
+                      variant="circular"
+                      width={40}
+                      height={40}
+                    />
+                    <Skeleton
+                      animation="wave"
+                      variant="circular"
+                      width={40}
+                      height={40}
+                    />
+                  </>
+                )}
               </>
-            ) : (
-              "Loding...."
             )}
           </Toolbar>
         </AppBar>

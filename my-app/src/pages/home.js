@@ -4,6 +4,8 @@ import React, { Component } from "react";
 import Post from "../components/post/postCard";
 import NoFriends from "../components/friends/buttons/noFriends";
 import FriendsList from "../components/friends/friendsList";
+import PostCardSkeleton from "../util/postCardSkeleton";
+import HomeFriendlistSkeleton from "../util/homeFriendlistSkeleton";
 
 // mui
 import {
@@ -208,13 +210,15 @@ class Home extends Component {
     return (
       <Root container>
         <Grid item sm={9} md={7} xs={11}>
-          {!loadingData ? <Posts {...this.props} /> : "...Loading"}
+          {!loadingData ? <Posts {...this.props} /> : <PostCardSkeleton />}
         </Grid>
         <Grid item md={4}>
           <div className={classes.sideFriendList}>
-            {!loadingUser
-              ? user.credentials && <Sidebar {...this.props} />
-              : "...Loading"}
+            {!loadingUser ? (
+              user.credentials && <Sidebar {...this.props} />
+            ) : (
+              <HomeFriendlistSkeleton />
+            )}
           </div>
         </Grid>
       </Root>
