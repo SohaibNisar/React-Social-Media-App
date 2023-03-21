@@ -79,7 +79,6 @@ const staticUserReducers = (state = initialState, action) => {
             }
         case COMMENT_POST:
             let index = state.posts.findIndex(post => post.id === action.payload.postId);
-            console.log(index)
             if (index >= 0) {
                 state.posts[index].commentsCount++;
             }

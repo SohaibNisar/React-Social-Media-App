@@ -123,6 +123,7 @@ export const commentPost = (postId, data) => (dispatch) => {
             payload: res.data
         })
     }).catch(err => {
+        console.log(err.response)
         if (!err.response) {
             console.log(err)
             return;
@@ -140,29 +141,11 @@ const setError = (err) => (dispatch) => {
             type: SET_DATA_ERRORS,
             payload: err.response.data
         })
+    }else{
+        dispatch({
+            type: SET_DATA_ERRORS,
+            payload: { ...err }
+        })
+        console.log("axios" + err)
     }
-    // else if (err.request) {
-    //     if (err.toJSON().message === 'Network Error') {
-    //         dispatch({
-    //             type: SET_DATA_ERRORS,
-    //             payload: {
-    //                 other: {
-    //                     message: "network related issue by axios",
-    //                     errMessage: "network error"
-    //                 }
-    //             }
-    //         })
-    //     } else {
-    //         dispatch({
-    //             type: SET_DATA_ERRORS,
-    //             payload: err
-    //         })
-    //     }
-    // } else {
-    dispatch({
-        type: SET_DATA_ERRORS,
-        payload: { ...err }
-    })
-    // }
-    console.log("axiosssssssssss" + err)
 }

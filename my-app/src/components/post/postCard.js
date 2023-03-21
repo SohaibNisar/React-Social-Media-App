@@ -58,7 +58,6 @@ class Post extends Component {
 
     componentDidMount() {
         if (this.props.openPostDialog) {
-            console.log(this.props.post.id)
             this.handleDialogOpen();
         }
     }

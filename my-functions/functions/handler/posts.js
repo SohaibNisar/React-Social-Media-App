@@ -1,5 +1,6 @@
 const Busboy = require("busboy");
 const { db, admin } = require("../util/admin");
+const { FieldValue } = require("firebase-admin/firestore");
 const { validatePostBody } = require("../util/validation");
 const { v4: uuidv4 } = require("uuid");
 const crypto = require("crypto");
@@ -65,7 +66,8 @@ exports.uploadOnePost = (req, res) => {
     // if (mimetype !== 'image/jpeg' && mimetype !== 'image/png') {
     //   res.status(400).json({ other: { error: 'wrong file type' } })
     // }
-    let imageExtension = info.filename.split(".")[info.filename.split(".").length - 1];
+    let imageExtension =
+      info.filename.split(".")[info.filename.split(".").length - 1];
     let imageFileName = `${crypto
       .randomBytes(11)
       .toString("hex")}${new Date().valueOf()}.${imageExtension}`;
@@ -175,7 +177,7 @@ exports.commentPost = (req, res) => {
           })
           .then(() => {
             return db.doc(`posts/${postId}`).update({
-              commentsCount: admin.firestore.FieldValue.increment(1),
+              commentsCount: FieldValue.increment(1),
             });
           })
           .then(() => {
@@ -207,14 +209,14 @@ exports.getPost = (req, res) => {
     .get()
     .then((doc) => {
       if (!doc.exists) {
-        return res.status(404).json({ error: 'Post not found' });
+        return res.status(404).json({ error: "Post not found" });
       }
       postData = doc.data();
       postData.id = doc.id;
       return db
-        .collection('comments')
-        .orderBy('createdAt', 'desc')
-        .where('postId', '==', req.params.postId)
+        .collection("comments")
+        .orderBy("createdAt", "desc")
+        .where("postId", "==", req.params.postId)
         .get();
     })
     .then((data) => {
@@ -255,8 +257,9 @@ exports.likePost = (req, res) => {
                   userHandle: userHandle,
                 })
                 .then(() => {
+                  console.log("Hellooooo");
                   return db.doc(`posts/${postId}`).update({
-                    likesCount: admin.firestore.FieldValue.increment(1),
+                    likesCount: FieldValue.increment(1),
                   });
                 })
                 .then(() => {
@@ -315,8 +318,9 @@ exports.unlikePost = (req, res) => {
                 .doc(snapshot.docs[0].id)
                 .delete()
                 .then(() => {
+                  console.log("cOMMETTTTTTT");
                   return db.doc(`posts/${postId}`).update({
-                    likesCount: admin.firestore.FieldValue.increment(-1),
+                    likesCount: FieldValue.increment(-1),
                   });
                 })
                 .then(() => {

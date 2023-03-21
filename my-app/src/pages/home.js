@@ -6,14 +6,21 @@ import NoFriends from "../components/friends/buttons/noFriends";
 import FriendsList from "../components/friends/friendsList";
 
 // mui
-import { Grid, Typography, Paper, List, ListSubheader, Divider } from "@mui/material";
-import { styled } from '@mui/material/styles';
+import {
+  Grid,
+  Typography,
+  Paper,
+  List,
+  ListSubheader,
+  Divider,
+} from "@mui/material";
+import { styled } from "@mui/material/styles";
 
 // redux
 import { connect } from "react-redux";
 import { getPosts } from "../redux/actions/dataActions";
 
-const PREFIX = 'home';
+const PREFIX = "home";
 
 const classes = {
   sideFriendList: `${PREFIX}-sideFriendList`,
@@ -22,13 +29,13 @@ const classes = {
 };
 
 const Root = styled(Grid)(({ theme }) => ({
-  justifyContent: 'space-evenly',
-  [theme.breakpoints.down('md')]: {
-    justifyContent: 'center',
+  justifyContent: "space-evenly",
+  [theme.breakpoints.down("md")]: {
+    justifyContent: "center",
   },
   [`& .${classes.sideFriendList}`]: {
-    margin: '0 3px 3px 3px',
-    padding: '0 3px 3px 3px',
+    margin: "0 3px 3px 3px",
+    padding: "0 3px 3px 3px",
     position: "sticky",
     overflow: "auto",
     maxHeight: "calc(100vh - 99px)",
@@ -38,7 +45,7 @@ const Root = styled(Grid)(({ theme }) => ({
       display: "block",
     },
 
-    '& ul': { padding: 0, margin: 0 },
+    "& ul": { padding: 0, margin: 0 },
 
     "&:hover": {
       "&::-webkit-scrollbar": {
@@ -57,7 +64,6 @@ const Root = styled(Grid)(({ theme }) => ({
       borderRadius: "7px",
       boxShadow: "transparent 0 0 0 10px",
     },
-
   },
   [`& .${classes.title}`]: {
     padding: "10px",
@@ -70,6 +76,98 @@ const Root = styled(Grid)(({ theme }) => ({
     marginBottom: 20,
   },
 }));
+
+const Posts = (props) => {
+  let {
+    data: { posts, errors },
+  } = props;
+
+  if (!posts || errors) {
+    if (errors.errorCode === "auth/id-token-expired") {
+      window.location.reload();
+    } else {
+      console.log(errors.message);
+      return <div>{errors.message}</div>;
+    }
+  } else if (posts && posts.length > 0) {
+    return (
+      <>
+        {posts.map((post) => (
+          <Post post={post} key={post.id} />
+        ))}
+        <div className={classes.marginBottomLarge}>
+          <NoFriends
+            mainText="No More Posts Available"
+            subText="Add more friends to see more posts"
+          />
+        </div>
+      </>
+    );
+  } else {
+    return (
+      <div className={classes.marginBottomLarge}>
+        <NoFriends
+          mainText="No Posts Available"
+          subText="Add friends to see posts"
+        />
+      </div>
+    );
+  }
+};
+
+const Sidebar = (props) => {
+  let { user } = props;
+  return (
+    <Paper>
+      <List subheader={<li />}>
+        {user.credentials.friendRequestsRecieved &&
+          user.credentials.friendRequestsRecieved.length > 0 && (
+            <li>
+              <ul>
+                <ListSubheader sx={{ p: 0 }}>
+                  <Typography
+                    align="center"
+                    className={classes.title}
+                    component={Paper}
+                  >
+                    Friend Requests
+                  </Typography>
+                </ListSubheader>
+                <FriendsList
+                  friendsToList={user.credentials.friendRequestsRecieved}
+                  buttonONBottom={this.state.mobile}
+                />
+              </ul>
+            </li>
+          )}
+        {user.credentials.friends && user.credentials.friends.length > 0 ? (
+          <li>
+            <ul>
+              <ListSubheader sx={{ p: 0 }}>
+                <Typography
+                  align="center"
+                  sx={{ mt: "10px" }}
+                  className={classes.title}
+                  component={Paper}
+                >
+                  Friends List
+                </Typography>
+              </ListSubheader>
+              <FriendsList
+                friendsToList={user.credentials.friends}
+                buttonONBottom={false}
+              />
+              <Divider />
+              <NoFriends mainText="No More Friends" size="small" noShadow />
+            </ul>
+          </li>
+        ) : (
+          <NoFriends mainText="No Friends" noShadow />
+        )}
+      </List>
+    </Paper>
+  );
+};
 
 class Home extends Component {
   state = {
@@ -97,101 +195,29 @@ class Home extends Component {
     };
   }
 
-  ShowPosts = () => {
-    let {
-      data: { posts },
-      data: { errors },
-    } = this.props;
-
-    if (!posts || errors) {
-      if (errors.errorCode === "auth/id-token-expired") {
-        window.location.reload();
-      } else {
-        console.log(errors.message)
-        return <div>{errors.message}</div>;
-      }
-    } else if (posts && posts.length > 0) {
-      return (
-        <>
-          {posts.map((post) => (
-            <Post post={post} key={post.id} />
-          ))}
-          <div className={classes.marginBottomLarge}>
-            <NoFriends
-              mainText="No More Posts Available"
-              subText="Add more friends to see more posts"
-            />
-          </div>
-        </>
-      );
-    } else {
-      return (
-        <div className={classes.marginBottomLarge}>
-          <NoFriends
-            mainText="No Posts Available"
-            subText="Add friends to see posts"
-          />
-        </div>
-      );
-    }
-  };
-
   render() {
     let {
       data: { loadingData },
+      user: { loadingUser },
       user,
-      user: { loadingUser }
     } = this.props;
     let arr = [];
     for (let i = 0; i < 20; i++) {
       arr.push(i);
     }
     return (
-      <Root container >
+      <Root container>
         <Grid item sm={9} md={7} xs={11}>
-          {!loadingData ? this.ShowPosts() : "...Loading"}
+          {!loadingData ? <Posts {...this.props} /> : "...Loading"}
         </Grid>
         <Grid item md={4}>
-          <div className={classes.sideFriendList} >
-            {!loadingUser ? (
-              user.credentials &&
-              <Paper>
-                <List subheader={<li />}>
-                  {
-                    user.credentials.friendRequestsRecieved &&
-                    user.credentials.friendRequestsRecieved.length > 0 &&
-                    <li>
-                      <ul>
-                        <ListSubheader sx={{ p: 0 }}>
-                          <Typography align="center" className={classes.title} component={Paper}>Friend Requests</Typography>
-                        </ListSubheader>
-                        <FriendsList friendsToList={user.credentials.friendRequestsRecieved} buttonONBottom={this.state.mobile} />
-                      </ul>
-                    </li>
-                  }
-                  {
-                    user.credentials.friends &&
-                      user.credentials.friends.length > 0 ? (
-                      <li>
-                        <ul>
-                          <ListSubheader sx={{ p: 0 }}>
-                            <Typography align="center" sx={{ mt: "10px" }} className={classes.title} component={Paper}>Friends List</Typography>
-                          </ListSubheader>
-                          <FriendsList friendsToList={user.credentials.friends} buttonONBottom={false} />
-                          <Divider />
-                          <NoFriends mainText="No More Friends" size="small" noShadow />
-                        </ul>
-                      </li>
-                    ) : <NoFriends mainText="No Friends" noShadow />
-                  }
-                </List>
-              </Paper>
-            ) : (
-              "...Loading"
-            )}
+          <div className={classes.sideFriendList}>
+            {!loadingUser
+              ? user.credentials && <Sidebar {...this.props} />
+              : "...Loading"}
           </div>
         </Grid>
-      </Root >
+      </Root>
     );
   }
 }

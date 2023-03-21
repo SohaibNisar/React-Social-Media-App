@@ -52,6 +52,7 @@ class PostDialog extends Component {
         oldPath: "",
         newPath: ""
     }
+
     componentDidMount() {
         // let { singlePost: { id, userHandle } } = this.props;
         // let newPath = `/user/${userHandle}/post/${id}`;
