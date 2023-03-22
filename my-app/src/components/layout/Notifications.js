@@ -7,53 +7,59 @@ import MyButton from "../../util/myButton";
 import { MenuItem, Menu, Badge } from "@mui/material";
 
 // mui icons
-import {
-    Notifications as NotificationsIcon,
-} from "@mui/icons-material";
+import { Notifications as NotificationsIcon } from "@mui/icons-material";
 
-const Notifications = () => {
-    const [anchorEl, setAnchorEl] = React.useState(null);
+//redux
+import { connect } from "react-redux";
 
-    const handleOpen = (e) => {
-        setAnchorEl(e.currentTarget);
-    };
+const Notifications = (props) => {
+  const [anchorEl, setAnchorEl] = React.useState(null);
 
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
+  const handleOpen = (e) => {
+    if (this.props.credentials) {
+      setAnchorEl(e.currentTarget);
+    }
+  };
 
-    return (
-        <>
-            <MyButton
-                tip="Notifications"
-                content={
-                    <Badge badgeContent={4} color="secondary">
-                        <NotificationsIcon />
-                    </Badge>
-                }
-                color="inherit"
-                onClick={handleOpen}
-            />
-            <Menu
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "center",
-                }}
-                keepMounted
-                transformOrigin={{
-                    vertical: "top",
-                    horizontal: "center",
-                }}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-            >
-                <MenuItem onClick={handleClose}>
-                    You have no notifications yet
-                </MenuItem>
-            </Menu>
-        </>
-    );
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  return (
+    <>
+      <MyButton
+        tip="Notifications"
+        content={
+          <Badge badgeContent={props.credentials && 4} color="secondary">
+            <NotificationsIcon />
+          </Badge>
+        }
+        color="inherit"
+        onClick={handleOpen}
+        disabled={!props.credentials && true}
+      />
+      <Menu
+        anchorEl={anchorEl}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "center",
+        }}
+        keepMounted
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+      >
+        <MenuItem onClick={handleClose}>You have no notifications yet</MenuItem>
+      </Menu>
+    </>
+  );
 };
 
-export default Notifications;
+const mapStateToProps = (state) => ({
+  credentials: state.user.credentials,
+});
+
+export default connect(mapStateToProps)(Notifications);

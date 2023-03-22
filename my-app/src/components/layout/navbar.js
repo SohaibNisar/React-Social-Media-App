@@ -10,7 +10,7 @@ import Notifications from "./Notifications";
 import ProfileButton from "./ProfileButton";
 
 // mui
-import { styled, AppBar, Toolbar, Button, Skeleton } from "@mui/material";
+import { styled, AppBar, Toolbar, Button } from "@mui/material";
 
 // mui icons
 import { HomeRounded, PeopleAlt } from "@mui/icons-material";
@@ -110,34 +110,9 @@ class Navbar extends Component {
                     color="inherit"
                   />
                 </NavLink>
-                {this.props.credentials ? (
-                  <>
-                    <UploadPost />
-                    <Notifications />
-                    <ProfileButton />
-                  </>
-                ) : (
-                  <>
-                    <Skeleton
-                      animation="wave"
-                      variant="circular"
-                      width={40}
-                      height={40}
-                    />
-                    <Skeleton
-                      animation="wave"
-                      variant="circular"
-                      width={40}
-                      height={40}
-                    />
-                    <Skeleton
-                      animation="wave"
-                      variant="circular"
-                      width={40}
-                      height={40}
-                    />
-                  </>
-                )}
+                <UploadPost />
+                <Notifications />
+                <ProfileButton />
               </>
             )}
           </Toolbar>

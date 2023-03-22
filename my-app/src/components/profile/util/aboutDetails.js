@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import dayjs from "dayjs";
 
 // mui
-import { Divider, Typography, styled } from '@mui/material';
+import { Divider, Typography, styled } from "@mui/material";
 
 // Icons
 import HomeIcon from "@mui/icons-material/Home";
@@ -11,15 +11,15 @@ import RssFeedIcon from "@mui/icons-material/RssFeed";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import QueryBuilderIcon from "@mui/icons-material/QueryBuilder";
 
-const PREFIX = 'aboutDetails';
+const PREFIX = "aboutDetails";
 
 const classes = {
   profileItem: `${PREFIX}-profileItem`,
   bolder: `${PREFIX}-bolder`,
-  bold: `${PREFIX}-bold`
+  bold: `${PREFIX}-bold`,
 };
 
-const Root = styled('div')({
+const Root = styled("div")({
   [`& .${classes.profileItem}`]: {
     width: "100%",
     overflow: "hidden",
@@ -35,19 +35,24 @@ const Root = styled('div')({
     },
   },
   [`& .${classes.bolder}`]: {
-    fontWeight: 'bolder !important',
+    fontWeight: "bolder !important",
   },
   [`& .${classes.bold}`]: {
-    fontWeight: 'bold !important',
+    fontWeight: "bold !important",
   },
 });
 
 class About extends Component {
   render() {
-    let { credentials, } = this.props;
+    let { credentials } = this.props;
     return (
       <Root>
-        <Typography variant='body1' color='primary' className={classes.bold}>
+        <Typography
+          variant="body1"
+          color="primary"
+          className={classes.bold}
+          sx={{ mt: 2 }}
+        >
           Details
         </Typography>
         <Divider />
@@ -101,4 +106,4 @@ class About extends Component {
   }
 }
 
-export default (About);
+export default About;

@@ -9,16 +9,25 @@ import Unfriend from "./buttons/unfriend";
 import AddFriend from "./buttons/addFriend";
 
 // mui
-import { Typography, List, ListItem, ListItemText, ListItemAvatar, ListItemSecondaryAction, Avatar, styled } from "@mui/material";
+import {
+  Typography,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemAvatar,
+  ListItemSecondaryAction,
+  Avatar,
+  styled,
+} from "@mui/material";
 
 // redux
 import { connect } from "react-redux";
 import { getStaticUserData } from "../../redux/actions/staticUserActions";
 
-const PREFIX = 'friendsList';
+const PREFIX = "friendsList";
 
 const classes = {
-  buttons: `${PREFIX}-buttons`
+  buttons: `${PREFIX}-buttons`,
 };
 
 const StyledList = styled(List)({
@@ -44,9 +53,19 @@ class FriendsList extends Component {
         friends = [];
       }
       if (!friends.some((friend) => friend.userHandle === friendUserHandle)) {
-        return <AddFriend friendUserHandle={friendUserHandle} deleteBtnStyle={{ ml: 1 }} />;
+        return (
+          <AddFriend
+            friendUserHandle={friendUserHandle}
+            deleteBtnStyle={{ ml: 1 }}
+          />
+        );
       } else {
-        return <Unfriend friendUserHandle={friendUserHandle} btnStyle={{ width: '86px' }} />;
+        return (
+          <Unfriend
+            friendUserHandle={friendUserHandle}
+            btnStyle={{ width: "86px" }}
+          />
+        );
       }
     } else {
       return null;
@@ -54,56 +73,47 @@ class FriendsList extends Component {
   };
 
   render() {
-    let {
-      user: { credentials },
-      friendsToList,
-      buttonONBottom,
-    } = this.props;
+    let { friendsToList, buttonONBottom } = this.props;
     return (
       <StyledList>
         {friendsToList.map((friend, index) => {
           return (
-            <React.Fragment key={friend.userHandle}>
-              {friend.userHandle !== credentials.userHandle && (
-                <>
-                  <ListItem
-                    component={Link}
-                    alignItems="flex-start"
-                    to={`/user/${friend.userHandle}`}
-                    divider={index < friendsToList.length - 1 ? true : false}
-                  >
-                    <ListItemAvatar>
-                      <Avatar
-                        alt={friend.userHandle}
-                        src={friend.profilePictureUrl}
-                      />
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary={
-                        <Typography color="primary">
-                          {`@${friend.userHandle}`}
-                        </Typography>
-                      }
-                      secondary={
-                        <>
-                          {dayjs(friend.createdAt).format("MMM DD, YYYY")}
-                          {buttonONBottom && (
-                            <span className={classes.buttons}>
-                              {this.ToShowButton(friend.userHandle)}
-                            </span>
-                          )}
-                        </>
-                      }
-                    />
-                    {!buttonONBottom && (
-                      <ListItemSecondaryAction>
+            <ListItem
+              component={Link}
+              alignItems="flex-start"
+              to={`/user/${friend.userHandle}`}
+              divider={index < friendsToList.length - 1 ? true : false}
+              key={index}
+            >
+              <ListItemAvatar>
+                <Avatar
+                  alt={friend.userHandle}
+                  src={friend.profilePictureUrl}
+                />
+              </ListItemAvatar>
+              <ListItemText
+                primary={
+                  <Typography color="primary">
+                    {`@${friend.userHandle}`}
+                  </Typography>
+                }
+                secondary={
+                  <>
+                    {dayjs(friend.createdAt).format("MMM DD, YYYY")}
+                    {buttonONBottom && (
+                      <span className={classes.buttons}>
                         {this.ToShowButton(friend.userHandle)}
-                      </ListItemSecondaryAction>
+                      </span>
                     )}
-                  </ListItem>
-                </>
+                  </>
+                }
+              />
+              {!buttonONBottom && (
+                <ListItemSecondaryAction>
+                  {this.ToShowButton(friend.userHandle)}
+                </ListItemSecondaryAction>
               )}
-            </React.Fragment>
+            </ListItem>
           );
         })}
       </StyledList>
@@ -119,7 +129,4 @@ const mapActionsToProps = {
   getStaticUserData,
 };
 
-export default connect(
-  mapStateToProps,
-  mapActionsToProps
-)(FriendsList);
+export default connect(mapStateToProps, mapActionsToProps)(FriendsList);

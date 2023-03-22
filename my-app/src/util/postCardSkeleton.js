@@ -5,21 +5,18 @@ import {
   Skeleton,
   CardContent,
   Typography,
+  Avatar,
 } from "@mui/material";
+
+// other
+import img from "../images/no-profile-picture.png";
 
 const postCardSkeleton = () => {
   return (
     <>
       <Card sx={{ mb: "40px" }}>
         <CardHeader
-          avatar={
-            <Skeleton
-              animation="wave"
-              variant="circular"
-              width={40}
-              height={40}
-            />
-          }
+          avatar={<Avatar alt="no image" src={img} />}
           title={
             <Skeleton
               animation="wave"
@@ -29,7 +26,7 @@ const postCardSkeleton = () => {
           }
           subheader={<Skeleton animation="wave" width="35%" />}
         />
-        <CardContent>
+        <CardContent sx={{ pt: "3px" }}>
           <Typography variant="body2" color="textSecondary" component="p">
             <Skeleton animation="wave" width="80%" />
             <Skeleton animation="wave" width="40%" />
@@ -43,14 +40,7 @@ const postCardSkeleton = () => {
       </Card>
       <Card sx={{ mb: "40px" }}>
         <CardHeader
-          avatar={
-            <Skeleton
-              animation="wave"
-              variant="circular"
-              width={40}
-              height={40}
-            />
-          }
+          avatar={<Avatar alt="no image" src={img} />}
           title={
             <Skeleton
               animation="wave"
@@ -60,7 +50,7 @@ const postCardSkeleton = () => {
           }
           subheader={<Skeleton animation="wave" width="35%" />}
         />
-        <CardContent>
+        <CardContent sx={{ pt: "3px" }}>
           <Skeleton animation="wave" width="80%" />
           <Skeleton animation="wave" width="40%" />
           <Skeleton animation="wave" width="60%" />
@@ -68,14 +58,7 @@ const postCardSkeleton = () => {
       </Card>
       <Card sx={{ mb: "40px" }}>
         <CardHeader
-          avatar={
-            <Skeleton
-              animation="wave"
-              variant="circular"
-              width={40}
-              height={40}
-            />
-          }
+          avatar={<Avatar alt="no image" src={img} />}
           title={
             <Skeleton
               animation="wave"
@@ -85,7 +68,7 @@ const postCardSkeleton = () => {
           }
           subheader={<Skeleton animation="wave" width="35%" />}
         />
-        <CardContent>
+        <CardContent sx={{ pt: "3px" }}>
           <Skeleton animation="wave" width="80%" />
           <Skeleton animation="wave" width="40%" />
         </CardContent>

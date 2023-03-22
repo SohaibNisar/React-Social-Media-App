@@ -8,7 +8,11 @@ import {
   ListItemText,
   Skeleton,
   Typography,
+  Avatar,
 } from "@mui/material";
+
+// other
+import img from "../images/no-profile-picture.png";
 
 const FriendsList = (props) => {
   let arr = Array(props.size).fill(0);
@@ -18,12 +22,7 @@ const FriendsList = (props) => {
         return (
           <ListItem divider={i < arr.length - 1 ? true : false} key={i}>
             <ListItemAvatar>
-              <Skeleton
-                animation="wave"
-                variant="circular"
-                width={40}
-                height={40}
-              />
+              <Avatar alt="no image" src={img} />
             </ListItemAvatar>
             <ListItemText
               primary={
@@ -40,7 +39,7 @@ const FriendsList = (props) => {
   );
 };
 
-const homeFriendlistSkeleton = () => {
+const HomeFriendlistSkeleton = () => {
   return (
     <Paper>
       <List subheader={<li />}>
@@ -90,4 +89,4 @@ const homeFriendlistSkeleton = () => {
   );
 };
 
-export default homeFriendlistSkeleton;
+export {HomeFriendlistSkeleton,FriendsList};

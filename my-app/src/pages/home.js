@@ -5,7 +5,7 @@ import Post from "../components/post/postCard";
 import NoFriends from "../components/friends/buttons/noFriends";
 import FriendsList from "../components/friends/friendsList";
 import PostCardSkeleton from "../util/postCardSkeleton";
-import HomeFriendlistSkeleton from "../util/homeFriendlistSkeleton";
+import {HomeFriendlistSkeleton} from "../util/homeFriendlistSkeleton";
 
 // mui
 import {

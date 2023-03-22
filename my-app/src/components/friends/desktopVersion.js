@@ -33,7 +33,7 @@ class DesktopVersion extends Component {
                         onChange={this.handleChange}
                         indicatorColor="primary"
                         textColor="primary"
-                        variant="fullWidth"
+                        centered
                     >
                         <Tab label="Suggestions" />
                         <Tab label="Friend Requests Sent" />

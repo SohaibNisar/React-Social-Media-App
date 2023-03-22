@@ -17,7 +17,7 @@ import themeObject from "./util/theme";
 // pages
 import Home from "./pages/home";
 import Friends from "./pages/friends";
-import LoginSignupTabs from "./pages/loginSignupTabs";
+import Login from "./pages/login";
 import User from "./pages/user";
 
 // mui
@@ -62,7 +62,7 @@ let App = (props) => {
             ) : <Route exact path="/" element={<Navigate to="/auth/login" />} />}
             <Route path="/friends" element={<Navigate to="/auth/login" />} />
             <Route path="/auth" element={<Navigate to="/auth/login" />} />
-            <Route path="/auth/:page?" element={<LoginSignupTabs />} />
+            <Route path="/auth/:page?" element={<Login />} />
             <Route path="/user/:handle" element={<User />} />
             <Route path="/user/:handle/post/:postId" element={<User openPostDialog/>} />
             <Route path="/404" element={<NoMatch />} />

@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 
 // commponents
-import DesktopVersion from '../components/friends/desktopVersion';
-import MobileVersion from '../components/friends/mobileVersion';
+import DesktopVersion from "../components/friends/desktopVersion";
+import MobileVersion from "../components/friends/mobileVersion";
+import FriendsDesktopSkeleton from "../util/friendsDesktopSkeleton";
+import FriendsMobileSkeleton from "../util/friendsMobileSkeleton";
 
 // redux
 import { connect } from "react-redux";
@@ -29,7 +31,6 @@ class Friends extends Component {
   }
 
   componentWillUnmount() {
-    // store.dispatch({ type: UNSET_STATIC_USER });
     this.setState = (state, callback) => {
       return;
     };
@@ -39,10 +40,17 @@ class Friends extends Component {
     let { loadingUser, loadingSuggestions } = this.props;
     return (
       <>
-        {!loadingUser && !loadingSuggestions ? (
-          !this.state.mobile ? <DesktopVersion /> : <MobileVersion />
-        ) : "...Loading"
-        }
+        {!this.state.mobile ? (
+          !loadingUser && !loadingSuggestions ? (
+            <DesktopVersion />
+          ) : (
+            <FriendsDesktopSkeleton />
+          )
+        ) : !loadingUser && !loadingSuggestions ? (
+          <MobileVersion />
+        ) : (
+          <FriendsMobileSkeleton />
+        )}
       </>
     );
   }
@@ -57,7 +65,4 @@ const mapActionsToProps = {
   getSuggestions,
 };
 
-export default connect(
-  mapStateToProps,
-  mapActionsToProps
-)((Friends));
+export default connect(mapStateToProps, mapActionsToProps)(Friends);

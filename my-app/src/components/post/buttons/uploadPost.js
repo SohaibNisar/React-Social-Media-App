@@ -4,8 +4,17 @@ import React, { Component } from "react";
 import MyButton from "../../../util/myButton";
 
 // mui
-import { Button, Dialog, DialogContent, TextField, DialogTitle, Typography, CircularProgress, IconButton } from "@mui/material";
-import { styled } from '@mui/material/styles';
+import {
+  Button,
+  Dialog,
+  DialogContent,
+  TextField,
+  DialogTitle,
+  Typography,
+  CircularProgress,
+  IconButton,
+} from "@mui/material";
+import { styled } from "@mui/material/styles";
 
 // mui icons
 import CloseIcon from "@mui/icons-material/Close";
@@ -17,7 +26,7 @@ import { connect } from "react-redux";
 import { uploadPost } from "../../../redux/actions/dataActions";
 import { CLEAR_ERRORS, CLEAR_DATA_ERRORS } from "../../../redux/types";
 
-const PREFIX = 'uploadPost';
+const PREFIX = "uploadPost";
 
 const classes = {
   dialogTitle: `${PREFIX}-dialogTitle`,
@@ -29,7 +38,7 @@ const classes = {
   showImage: `${PREFIX}-showImage`,
   showImageTag: `${PREFIX}-showImageTag`,
   cancleImage: `${PREFIX}-cancleImage`,
-  circularProgress: `${PREFIX}-circularProgress`
+  circularProgress: `${PREFIX}-circularProgress`,
 };
 
 const StyledDialog = styled(Dialog)(({ theme }) => ({
@@ -82,7 +91,7 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
 
   [`& .${classes.circularProgress}`]: {
     position: "absolute",
-  }
+  },
 }));
 
 class UploadPost extends Component {
@@ -128,7 +137,9 @@ class UploadPost extends Component {
   };
 
   handleClickOpen = () => {
-    this.setState({ open: true });
+    if (this.props.credentials) {
+      this.setState({ open: true });
+    }
   };
 
   handleClose = () => {
@@ -159,7 +170,10 @@ class UploadPost extends Component {
   };
 
   render() {
-    const { UI: { loading }, credentials, } = this.props;
+    const {
+      UI: { loading },
+      credentials,
+    } = this.props;
     let userHandle;
     if (credentials) userHandle = credentials.userHandle;
     return (
@@ -169,6 +183,7 @@ class UploadPost extends Component {
             tip="Create a Post"
             color="inherit"
             content={<AddIcon />}
+            disabled={!this.props.credentials && true}
           />
         </div>
         <StyledDialog
@@ -178,7 +193,11 @@ class UploadPost extends Component {
           maxWidth="sm"
         >
           <DialogTitle className={classes.dialogTitle}>
-            <Typography sx={{ fontWeight: "bold" }} component={Typography} color="primary">
+            <Typography
+              sx={{ fontWeight: "bold" }}
+              component={Typography}
+              color="primary"
+            >
               {/* Delete Post */}
               Create a Post
             </Typography>
@@ -209,7 +228,8 @@ class UploadPost extends Component {
                 onChange={this.handleChange}
                 helperText={this.state.errors.postBody}
                 focused={this.state.errors.postBody ? true : false}
-                error={this.state.errors.postBody ? true : false} />
+                error={this.state.errors.postBody ? true : false}
+              />
               <input
                 accept="image/*"
                 className={classes.mediaFile}
@@ -271,7 +291,7 @@ class UploadPost extends Component {
               </Button>
             </form>
           </DialogContent>
-        </StyledDialog >
+        </StyledDialog>
       </>
     );
   }
@@ -287,4 +307,4 @@ const mapActionsToProps = {
   uploadPost,
 };
 
-export default connect(mapStateToProps, mapActionsToProps)((UploadPost));
+export default connect(mapStateToProps, mapActionsToProps)(UploadPost);
