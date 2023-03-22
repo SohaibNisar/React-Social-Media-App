@@ -18,7 +18,7 @@ const FriendsList = (props) => {
   let arr = Array(props.size).fill(0);
   return (
     <List>
-      {arr.map((X, i) => {
+      {arr.map((x, i) => {
         return (
           <ListItem divider={i < arr.length - 1 ? true : false} key={i}>
             <ListItemAvatar>

@@ -30,30 +30,30 @@ const app = express();
 app.use(cors({ origin: true }));
 
 // auth
-app.post("/signup", signup);//checked
-app.post("/login", login);//checked
+app.post("/signup", signup); //checked
+app.post("/login", login); //checked
 
 // user
 app.get("/authenticUser", FBAuth, getAuthenticUserData); //checked
 app.get("/user/:userHandle", getUserData); //checked
 app.get("/searchUser/:text", searchFriend);
-app.post("/user/editProfile", FBAuth, editProfile);//checked
+app.post("/user/editProfile", FBAuth, editProfile); //checked
 app.post("/notifications", FBAuth, markNotificationRead);
 
 // friends
-app.get("/allUsers", FBAuth, allUsers);//checked
-app.post("/friendRequest/:userHandle", FBAuth, addFriend);//checked
-app.post("/confirmFriendRequest/:userHandle", FBAuth, confirmRequest);//checked
-app.delete("/friendRequest/:userHandle", FBAuth, deleteRequest);//checked
+app.get("/allUsers", FBAuth, allUsers); //checked
+app.post("/friendRequest/:userHandle", FBAuth, addFriend); //checked
+app.post("/confirmFriendRequest/:userHandle", FBAuth, confirmRequest); //checked
+app.delete("/friendRequest/:userHandle", FBAuth, deleteRequest); //checked
 app.delete("/unFriend/:userHandle", FBAuth, unFriend); //checked
 
 // posts
 app.get("/posts", FBAuth, getAllPost); //checked
-app.get("/post/:postId/", FBAuth, getPost); //checked
-app.post("/posts", FBAuth, uploadOnePost);//checked
-app.post("/post/:postId/like", FBAuth, likePost);//checked
-app.post("/post/:postId/unlike", FBAuth, unlikePost);//checked
-app.post("/post/:postId/comment", FBAuth, commentPost);//checked
+app.get("/post/:postId/", getPost); //checked
+app.post("/posts", FBAuth, uploadOnePost); //checked
+app.post("/post/:postId/like", FBAuth, likePost); //checked
+app.post("/post/:postId/unlike", FBAuth, unlikePost); //checked
+app.post("/post/:postId/comment", FBAuth, commentPost); //checked
 app.delete("/post/:postId", FBAuth, deletePost); //checked
 
 exports.api = functions.https.onRequest(app);
