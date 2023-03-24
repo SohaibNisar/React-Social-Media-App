@@ -28,6 +28,7 @@ const { admin, db } = require("./util/admin");
 
 const app = express();
 app.use(cors({ origin: true }));
+const port = 4001;
 
 // auth
 app.post("/signup", signup); //checked

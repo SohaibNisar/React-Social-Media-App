@@ -5,7 +5,7 @@ import Post from "../components/post/postCard";
 import NoFriends from "../components/friends/buttons/noFriends";
 import FriendsList from "../components/friends/friendsList";
 import PostCardSkeleton from "../util/postCardSkeleton";
-import {HomeFriendlistSkeleton} from "../util/homeFriendlistSkeleton";
+import { HomeFriendlistSkeleton } from "../util/homeFriendlistSkeleton";
 
 // mui
 import {
@@ -137,7 +137,7 @@ const Sidebar = (props) => {
                 </ListSubheader>
                 <FriendsList
                   friendsToList={user.credentials.friendRequestsRecieved}
-                  buttonONBottom={this.state.mobile}
+                  buttonONBottom={props.mobile}
                 />
               </ul>
             </li>
@@ -215,7 +215,9 @@ class Home extends Component {
         <Grid item md={4}>
           <div className={classes.sideFriendList}>
             {!loadingUser ? (
-              user.credentials && <Sidebar {...this.props} />
+              user.credentials && (
+                <Sidebar {...this.props} mobile={this.state.mobile} />
+              )
             ) : (
               <HomeFriendlistSkeleton />
             )}

@@ -16,7 +16,7 @@ const Notifications = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleOpen = (e) => {
-    if (this.props.credentials) {
+    if (props.credentials) {
       setAnchorEl(e.currentTarget);
     }
   };

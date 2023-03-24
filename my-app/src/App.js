@@ -29,7 +29,7 @@ import { connect } from "react-redux";
 import { SET_AUTHENTICATED, SET_UNAUTHENTICATED } from "./redux/types";
 import { getUserData } from "./redux/actions/userActions";
 axios.defaults.baseURL =
-  "http://localhost:5000/socialmediaapp-53549/us-central1/api/";
+  "https://react-social-media-app-functions-production.up.railway.app/";
 
 let theme = createTheme(themeObject);
 
@@ -59,20 +59,25 @@ let App = (props) => {
                 <Route exact="true" path="/" element={<Home />} />
                 <Route path="/friends" element={<Friends />} />
               </>
-            ) : <Route exact path="/" element={<Navigate to="/auth/login" />} />}
+            ) : (
+              <Route exact path="/" element={<Navigate to="/auth/login" />} />
+            )}
             <Route path="/friends" element={<Navigate to="/auth/login" />} />
             <Route path="/auth" element={<Navigate to="/auth/login" />} />
             <Route path="/auth/:page?" element={<Login />} />
             <Route path="/user/:handle" element={<User />} />
-            <Route path="/user/:handle/post/:postId" element={<User openPostDialog/>} />
+            <Route
+              path="/user/:handle/post/:postId"
+              element={<User openPostDialog />}
+            />
             <Route path="/404" element={<NoMatch />} />
             <Route path="*" element={<Navigate to="/404" />} />
           </Routes>
         </div>
       </Router>
     </ThemeProvider>
-  )
-}
+  );
+};
 
 const mapStateToProps = (state) => ({
   user: state.user,
